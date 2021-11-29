@@ -18,12 +18,12 @@ public class Result<T> implements Serializable {
     /**
      * 是否成功
      */
-    private Boolean succ;
+    private Boolean success;
 
     /**
      * 服务器当前时间戳
      */
-    private Long ts = System.currentTimeMillis();
+    private Long timeMillis = System.currentTimeMillis();
 
     /**
      * 成功数据
@@ -38,22 +38,22 @@ public class Result<T> implements Serializable {
     /**
      * 错误描述
      */
-    private String msg;
+    private String message;
 
-    public Boolean getSucc() {
-        return succ;
+    public Boolean getSuccess() {
+        return success;
     }
 
-    public void setSucc(Boolean succ) {
-        this.succ = succ;
+    public void setSuccess(Boolean success) {
+        this.success = success;
     }
 
-    public Long getTs() {
-        return ts;
+    public Long getTimeMillis() {
+        return timeMillis;
     }
 
-    public void setTs(Long ts) {
-        this.ts = ts;
+    public void setTimeMillis(Long timeMillis) {
+        this.timeMillis = timeMillis;
     }
 
     public T getData() {
@@ -72,60 +72,60 @@ public class Result<T> implements Serializable {
         this.code = code;
     }
 
-    public String getMsg() {
-        return msg;
+    public String getMessage() {
+        return message;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public Result() {
     }
 
-    public Result(Boolean succ, Long ts, T data, String code, String msg) {
-        this.succ = succ;
-        this.ts = ts;
+    public Result(Boolean success, Long timeMillis, T data, String code, String message) {
+        this.success = success;
+        this.timeMillis = timeMillis;
         this.data = data;
         this.code = code;
-        this.msg = msg;
+        this.message = message;
     }
 
     public static Result ofSuccess() {
         Result result = new Result();
-        result.succ = true;
+        result.success = true;
         return result;
     }
 
     public static Result ofSuccess(Object data) {
         Result result = new Result();
-        result.succ = true;
+        result.success = true;
         result.setData(data);
         return result;
     }
 
     public static Result ofFail(String code, String msg) {
         Result result = new Result();
-        result.succ = false;
+        result.success = false;
         result.code = code;
-        result.msg = msg;
+        result.message = msg;
         return result;
     }
 
     public static Result ofFail(String code, String msg, Object data) {
         Result result = new Result();
-        result.succ = false;
+        result.success = false;
         result.code = code;
-        result.msg = msg;
+        result.message = msg;
         result.setData(data);
         return result;
     }
 
     public static Result ofFail(CommonErrorCode resultEnum) {
         Result result = new Result();
-        result.succ = false;
+        result.success = false;
         result.code = resultEnum.getCode();
-        result.msg = resultEnum.getMessage();
+        result.message = resultEnum.getMessage();
         return result;
     }
 
@@ -134,7 +134,7 @@ public class Result<T> implements Serializable {
      */
     public String buildResultJson() {
         GsonBuilder gsonBuilder=new  GsonBuilder(); //设定格式的
-        Result result=new Result(this.succ,this.ts,this.data,this.code,this.msg);
+        Result result=new Result(this.success,this.timeMillis,this.data,this.code,this.message);
         gsonBuilder.setDateFormat("yyyy-MM-dd HH:mm:ss"); //设定date属性 有误json本身没有date类型
         Gson gson=gsonBuilder.create();
         String Gjson=gson.toJson(result);
@@ -151,11 +151,11 @@ public class Result<T> implements Serializable {
     @Override
     public String toString() {
         return "Result{" +
-                "succ=" + succ +
-                ", ts=" + ts +
+                "success=" + success +
+                ", timeMillis=" + timeMillis +
                 ", data=" + data +
                 ", code='" + code + '\'' +
-                ", msg='" + msg + '\'' +
+                ", message='" + message + '\'' +
                 '}';
     }
 }
